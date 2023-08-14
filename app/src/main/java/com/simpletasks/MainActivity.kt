@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.simpletasks.ui.screens.MainScreen
+import com.simpletasks.ui.screens.HomeScreen
 import com.simpletasks.ui.theme.SimpleTasksTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,12 +17,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SimpleTasksTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    HomeScreen()
                 }
             }
         }
