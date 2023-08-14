@@ -11,6 +11,7 @@ data class TaskDbEntity(
     val status: TaskStatus,
     val createdTime: Long,
     val updatedTime: Long,
+    val dueDate: Long
 )
 
 enum class TaskStatus {

@@ -17,16 +17,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.simpletasks.data.localdb.entities.TaskStatus
 import com.simpletasks.ui.components.AppTabRow
 import com.simpletasks.ui.components.TaskListComponent
 import com.simpletasks.ui.components.TopAppBar
+import com.simpletasks.ui.models.dummyTaskList
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     //Use ViewModels to Persist
     var tabIndex by remember { mutableStateOf(0) }
     val tabs = listOf("All Tasks", "Completed Tasks")
-    val taskList = listOf<String>("Task 1", "Task 2", "Task 3", "Completed Task 4")
+    val taskList = dummyTaskList
     //
 
     Scaffold(
@@ -49,7 +51,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             when (tabIndex) {
                 0 -> TaskListComponent(listOfTasks = taskList, modifier = Modifier.fillMaxSize())
                 1 -> TaskListComponent(
-                    listOfTasks = taskList.filter { task -> task.startsWith("Completed") },
+                    listOfTasks = taskList.filter { task -> task.status == TaskStatus.COMPLETED },
                     modifier = Modifier.fillMaxSize()
                 )
             }

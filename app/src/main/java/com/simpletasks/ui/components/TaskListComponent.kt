@@ -11,9 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.simpletasks.ui.models.Task
 
 @Composable
-fun TaskListComponent(listOfTasks: List<String>, modifier: Modifier = Modifier) {
+fun TaskListComponent(listOfTasks: List<Task>, modifier: Modifier = Modifier) {
     if (listOfTasks.isEmpty()) {
         Box(modifier = modifier, contentAlignment = Alignment.Center) {
             Text(text = "No Tasks!")
@@ -30,10 +31,10 @@ fun TaskListComponent(listOfTasks: List<String>, modifier: Modifier = Modifier) 
 }
 
 @Composable
-fun TaskListItem(task: String, modifier: Modifier = Modifier) {
+fun TaskListItem(task: Task, modifier: Modifier = Modifier) {
     ListItem(
         modifier = modifier,
-        headlineContent = { Text(text = task) },
+        headlineContent = { Text(text = task.name) },
         leadingContent = { Checkbox(checked = false, onCheckedChange = {}) },
     )
     Divider(thickness = 1.dp)
