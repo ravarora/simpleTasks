@@ -35,14 +35,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            var title by remember { mutableStateOf("Simple Tasks") }
+            var title by remember { mutableStateOf(HomeScreenRoute.title) }
             var showBackButton by remember { mutableStateOf(false) }
+
             LaunchedEffect(navController) {
                 navController.currentBackStackEntryFlow.collect { backStackEntry ->
                     title = when (backStackEntry.destination.route) {
-                        HomeScreenRoute.route -> "Simple Tasks"
-                        CreateNewTaskRoute.route -> "Create New Task"
-                        else -> "Task Details"
+                        HomeScreenRoute.route -> HomeScreenRoute.title
+                        CreateNewTaskRoute.route -> CreateNewTaskRoute.title
+                        else -> TaskDetailsRoute.title
                     }
                     showBackButton = navController.previousBackStackEntry != null
                 }

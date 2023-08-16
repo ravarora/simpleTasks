@@ -5,15 +5,17 @@ import androidx.navigation.navArgument
 
 interface NavigationRoute {
     val route: String
+    val title: String
 }
 
 interface TabbedNavigationRoute : NavigationRoute {
     val tabIndex: Int
-    val title: String
+
 }
 
 object HomeScreenRoute : NavigationRoute {
     override val route = "homeScreen"
+    override val title = "Simple Tasks"
 }
 
 object AllTasksRoute : TabbedNavigationRoute {
@@ -30,9 +32,11 @@ object CompletedTasksRoute : TabbedNavigationRoute {
 
 object CreateNewTaskRoute : NavigationRoute {
     override val route = "createNewTask"
+    override val title = "Create New Task"
 }
 
 object TaskDetailsRoute : NavigationRoute {
+    override val title = "Task Details"
     private const val routeBase = "taskDetails"
     const val taskIdArg = "taskId"
     override val route = "$routeBase/{$taskIdArg}"

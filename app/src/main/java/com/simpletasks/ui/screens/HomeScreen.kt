@@ -31,14 +31,14 @@ fun HomeScreen(
     onListItemClicked: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    //Use ViewModels to Persist
     var currentTabIndex by remember { mutableStateOf(startingTabRoute.tabIndex) }
-    val taskList = dummyTaskList
-    //
+
+    val taskList = dummyTaskList //Use View model here
 
     Box(modifier = modifier) {
         Column(Modifier.fillMaxSize()) {
-            AppTabRow(tabbedRoutes = tabbedRoutes,
+            AppTabRow(
+                tabbedRoutes = tabbedRoutes,
                 currentTabIndex = currentTabIndex,
                 onTabSelected = { selectedTab ->
                     currentTabIndex = selectedTab.tabIndex
