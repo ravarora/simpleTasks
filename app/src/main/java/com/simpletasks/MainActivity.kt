@@ -14,12 +14,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import com.simpletasks.ui.components.AllTasksRoute
+import com.simpletasks.ui.components.CreateNewTaskRoute
+import com.simpletasks.ui.components.HomeScreenRoute
+import com.simpletasks.ui.components.TaskDetailsRoute
 import com.simpletasks.ui.components.TopAppBar
+import com.simpletasks.ui.components.tabbedRoutes
 import com.simpletasks.ui.screens.CreateNewTaskForm
 import com.simpletasks.ui.screens.HomeScreen
 import com.simpletasks.ui.screens.TaskDetails
@@ -37,8 +40,8 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(navController) {
                 navController.currentBackStackEntryFlow.collect { backStackEntry ->
                     title = when (backStackEntry.destination.route) {
-                        "homeScreen" -> "Simple Tasks"
-                        "createNewTask" -> "Create New Task"
+                        HomeScreenRoute.route -> "Simple Tasks"
+                        CreateNewTaskRoute.route -> "Create New Task"
                         else -> "Task Details"
                     }
                     showBackButton = navController.previousBackStackEntry != null
@@ -60,25 +63,30 @@ class MainActivity : ComponentActivity() {
                     ) { innerPaddingValues ->
                         NavHost(
                             navController = navController,
-                            startDestination = "homeScreen",
+                            startDestination = HomeScreenRoute.route,
                             modifier = Modifier.padding(innerPaddingValues),
                         ) {
-                            composable(route = "homeScreen") {
+                            composable(route = HomeScreenRoute.route) {
                                 HomeScreen(
-                                    onFabClicked = { navController.navigate("createNewTask") },
-                                    onListItemClicked = { taskId -> navController.navigate("taskDetails/$taskId)") }
+                                    tabbedRoutes = tabbedRoutes,
+                                    startingTabRoute = AllTasksRoute,
+                                    onFabClicked = { navController.navigate(CreateNewTaskRoute.route) },
+                                    onListItemClicked = { taskId ->
+                                        navController.navigate(
+                                            TaskDetailsRoute.createTaskDetailRoute(taskId)
+                                        )
+                                    }
                                 )
                             }
-                            composable(route = "createNewTask") {
+                            composable(route = CreateNewTaskRoute.route) {
                                 CreateNewTaskForm()
                             }
                             composable(
-                                route = "taskDetails/{taskId}",
-                                arguments = listOf(navArgument("taskId") {
-                                    type = NavType.StringType
-                                })
+                                route = TaskDetailsRoute.route,
+                                arguments = TaskDetailsRoute.arguments
                             ) { navBackStackEntry ->
-                                val taskId = navBackStackEntry.arguments?.getString("taskId")
+                                val taskId =
+                                    navBackStackEntry.arguments?.getString(TaskDetailsRoute.taskIdArg)
                                 TaskDetails(taskId = taskId)
                             }
                         }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,14 +33,12 @@ fun TopAppBar(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (showBackButton) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Go Back",
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .clickable(true) { onBackButtonPressed() })
-        }
+        Icon(
+            imageVector = if (showBackButton) Icons.Default.ArrowBack else Icons.Default.Home,
+            contentDescription = if (showBackButton) "Go Back" else "Home",
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .clickable(showBackButton) { onBackButtonPressed() })
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge,

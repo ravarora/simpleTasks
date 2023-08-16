@@ -19,30 +19,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.simpletasks.data.localdb.entities.TaskStatus
 import com.simpletasks.ui.components.AppTabRow
+import com.simpletasks.ui.components.TabbedNavigationRoute
 import com.simpletasks.ui.components.TaskListComponent
 import com.simpletasks.ui.models.dummyTaskList
 
 @Composable
 fun HomeScreen(
+    tabbedRoutes: List<TabbedNavigationRoute>,
+    startingTabRoute: TabbedNavigationRoute,
     onFabClicked: () -> Unit,
     onListItemClicked: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     //Use ViewModels to Persist
-    var tabIndex by remember { mutableStateOf(0) }
-    val tabs = listOf("All Tasks", "Completed Tasks")
+    var currentTabIndex by remember { mutableStateOf(startingTabRoute.tabIndex) }
     val taskList = dummyTaskList
     //
 
     Box(modifier = modifier) {
         Column(Modifier.fillMaxSize()) {
-            AppTabRow(listOfTabs = tabs,
-                currentTabIndex = tabIndex,
-                onTabSelected = { selectedTabIndex ->
-                    tabIndex = selectedTabIndex
+            AppTabRow(tabbedRoutes = tabbedRoutes,
+                currentTabIndex = currentTabIndex,
+                onTabSelected = { selectedTab ->
+                    currentTabIndex = selectedTab.tabIndex
                 }
             )
-            when (tabIndex) {
+            when (currentTabIndex) {
                 0 -> TaskListComponent(
                     listOfTasks = taskList,
                     onListItemSelected = onListItemClicked,
